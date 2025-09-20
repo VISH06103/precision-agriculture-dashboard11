@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Precision Agriculture Dashboard - AI & IoT Simulation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .card-option {
+      display: none;
+    }
+    .card-option.active {
+      display: block;
+    }
+    #upload-result img {
+      max-width: 200px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-200 via-blue-100 to-green-300 min-h-screen">
+  <div class="container mx-auto p-6">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-green-800 mb-2">Precision Agriculture Dashboard</h1>
+      <p class="text-lg text-gray-700">AI-Powered IoT Simulation for Smart Farming</p>
+      <p class="text-sm text-gray-600">
+        Monitor and analyze soil moisture, temperature, pH; upload crop images for AI disease detection, and locate nearby agro-medicine shops.
+      </p>
+    </header>
+
+    <!-- Features Section -->
+    <section class="bg-white rounded-lg shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Features</h2>
+      <ul class="list-disc list-inside space-y-2 text-gray-700 max-w-4xl mx-auto">
+        <li><strong>Real-time IoT Sensor Simulation:</strong> Soil moisture, temperature, and pH data generated every 5 seconds.</li>
+        <li><strong>AI-Driven Analysis:</strong> Automated irrigation recommendations based on combined sensor data.</li>
+        <li><strong>Manual Data Input:</strong> Override soil pH values and analyze their impact on crop health.</li>
+        <li><strong>Interactive Charts:</strong> Visualize trends for soil moisture, temperature, and pH with dual-axis support.</li>
+        <li><strong>Crop Image Upload & Analysis:</strong> Upload plant photos for AI-based disease detection and tailored solutions.</li>
+        <li><strong>Nearby Agro-Medicine Shops:</strong> Locate shops for recommended medicines based on analysis.</li>
+        <li><strong>Crop Detection Technologies Overview:</strong> Learn about modern AI methods for crop health monitoring.</li>
+        <li><strong>Team Members Overview:</strong> Meet the project contributors and their roles.</li>
+      </ul>
+    </section>
+
+    <!-- Crop Image Upload & Analysis Section -->
+    <section class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Crop Image Upload & AI Analysis</h2>
+      <p class="text-gray-700 mb-4">
+        Upload a photo of your crop plant (e.g., leaves, stems) for AI-powered disease detection, analysis, and recommendations. The system will identify potential issues and suggest solutions.
+      </p>
+      <div class="flex flex-col items-center mb-4">
+        <input type="file" id="crop-image-input" accept="image/*" class="mb-2" />
+        <button id="analyze-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Analyze Image</button>
+      </div>
+      <div id="upload-result" class="mt-4 text-center">
+        <!-- Results will be displayed here -->
+        <div>
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/843e724c-45df-41d9-8b0d-3ec4c70e89e3.png" alt="Illustrative image of a healthy green plant leaf with clear veins, symbolizing optimal crop health without any visible diseases or damage, emphasizing normal leaf texture and color under natural sunlight in an agricultural field" class="rounded-lg shadow-md mx-auto" />
+        </div>
+      </div>
+      <div id="analysis-output" class="mt-4 text-center text-gray-700"></div>
+      <div id="recommended-solutions" class="mt-4 bg-yellow-50 p-4 rounded-lg shadow-sm">
+        <h3 class="font-semibold">Recommended Solutions:</h3>
+        <ul id="solutions-list" class="list-disc list-inside mt-2"></ul>
+      </div>
+      <div id="nearby-shops" class="mt-4 bg-blue-50 p-4 rounded-lg shadow-sm">
+        <h3 class="font-semibold">Nearby Agro-Medicine Shops:</h3>
+        <div id="shops-list" class="mt-2">
+          <!-- Mock shops data will be inserted here -->
+          <div class="bg-white p-2 mb-2 rounded shadow-sm">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1e3d392e-292a-463e-99dc-12022d16f72f.png" alt="Image of a traditional agro-medicine shop with shelves stocked with pesticides, fertilizers, and plant care products, including signs displaying store name, contact information, located in a rural marketplace with clear signage indicating offers for crop disease remedies" class="rounded float-left mr-4" />
+            <strong>GreenHarvest Supplies</strong><br>Address: 123 Farm Road, Nearby Town<br>Distance: 2.5 km<br>Contact: +1-234-567-8901<br><button class="bg-blue-500 text-white px-3 py-1 rounded text-sm mt-1">Get Directions</button>
+          </div>
+          <div class="bg-white p-2 mb-2 rounded shadow-sm">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/41621e9a-4d1a-486f-911f-c30ebad36b12.png" alt="Front view of a modern agro-store with branded pesticide bottles, nutrient supplements, protective gear for farmers, digital price boards, and a friendly sales representative assisting a customer with crop health products in a brightly lit rural setting" class="rounded float-left mr-4" />
+            <strong>Agritech Solutions</strong><br>Address: 456 Rural Highway, Adjacent Village<br>Distance: 3.8 km<br>Contact: +1-987-654-3210<br><button class="bg-blue-500 text-white px-3 py-1 rounded text-sm mt-1">Get Directions</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-semibold text-gray-800">Soil Moisture Trends</h2>
+          <button
+            id="toggle-options"
+            class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+          >
+            Add Options
+          </button>
+        </div>
+        <div id="additional-options" class="card-option mb-4">
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700"
+              >Soil pH (Manual Override/Input)</label
+            >
+            <input
+              id="ph-input"
+              type="number"
+              step="0.1"
+              min="0"
+              max="14"
+              class="w-full p-2 border rounded"
+              placeholder="e.g., 6.5"
+            />
+            <button
+              id="update-ph"
+              class="mt-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+            >
+              Update pH Data
+            </button>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Analyze pH Impact on Recommendations</label
+            >
+            <button
+              id="analyze-ph"
+              class="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600"
+            >
+              Run Analysis
+            </button>
+            <p id="analysis-result" class="mt-2 text-xs text-gray-600"></p>
+          </div>
+        </div>
+        <canvas id="soilChart" class="w-full h-64"></canvas>
+      </div>
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Temperature Trends</h2>
+        <canvas id="tempChart" class="w-full h-64"></canvas>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+        Comprehensive Analysis & Recommendations
+      </h2>
+      <div
+        id="status"
+        class="text-xl font-medium text-center p-4 rounded-lg bg-gray-100"
+      >
+        Loading data...
+      </div>
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f1ca185f-e944-4b05-99a8-4302deac2d24.png"
+            alt="Detailed view of agricultural soil testing equipment measuring soil moisture, pH levels, and temperature, with a hand holding a soil probe sensor in fertile farmland, displaying digital readings for precise farming analysis under a clear sky"
+            class="rounded-lg shadow-md w-full"
+          />
+        </div>
+        <div>
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/97303940-ae64-4de5-b808-d7d752aac2f7.png"
+            alt="Interactive digital dashboard showing soil health metrics including moisture percentages, pH scale indicators, and temperature graphs, with farmer using a tablet for real-time data insights in a high-tech greenhouse environment"
+            class="rounded-lg shadow-md w-full"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Crop Detection Technologies Section -->
+    <section class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">
+        Crop Detection Technologies
+      </h2>
+      <p class="text-gray-700 mb-4">
+        Modern precision agriculture leverages various AI and IoT technologies for crop detection and health monitoring:
+      </p>
+      <ul class="list-disc list-inside space-y-2 text-gray-700">
+        <li>
+          <strong>Satellite Imagery:</strong> High-resolution images analyzed with AI to detect crop stress, disease, and growth patterns.
+        </li>
+        <li>
+          <strong>Drones:</strong> Equipped with multispectral and thermal cameras to capture detailed crop data for early problem detection.
+        </li>
+        <li>
+          <strong>Machine Learning Models:</strong> Image classification and object detection algorithms identify crop types, diseases, and pest infestations.
+        </li>
+        <li>
+          <strong>IoT Sensors:</strong> Soil and environmental sensors provide continuous data streams to complement visual crop health data.
+        </li>
+        <li>
+          <strong>Robotics:</strong> Automated systems use AI to perform targeted interventions like spraying or harvesting based on crop detection.
+        </li>
+      </ul>
+    </section>
+    <!-- Precision Agriculture Course Section -->
+    <section class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">Precision Agriculture Course</h2>
+      <p class="text-gray-700 mb-4">
+        Learn the fundamentals of precision agriculture, AI applications in farming, and IoT sensor technologies through this curated course.
+      </p>
+      <ul class="list-disc list-inside space-y-2 text-gray-700 max-w-3xl mx-auto">
+        <li><strong>Introduction to Precision Agriculture:</strong> Overview and benefits.</li>
+        <li><strong>IoT Sensors in Agriculture:</strong> Types, data collection, and analysis.</li>
+        <li><strong>AI & Machine Learning:</strong> Crop disease detection and yield prediction.</li>
+        <li><strong>Data Visualization:</strong> Interpreting sensor data and charts.</li>
+        <li><strong>Practical Applications:</strong> Case studies and real-world examples.</li>
+      </ul>
+      <div class="mt-6 text-center">
+        <a href="https://example.com/precision-agriculture-course" target="_blank" class="inline-block bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition">Enroll Now</a>
+      </div>
+    </section>
+    <!-- AI Assistant Section -->
+<section class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto mb-8">
+  <h2 class="text-3xl font-semibold text-gray-800 mb-4 text-center">AI Assistant</h2>
+  <div id="chat-container" class="border rounded p-4 h-64 overflow-y-auto bg-gray-50 mb-4"></div>
+  <input
+    type="text"
+    id="chat-input"
+    placeholder="Ask about soil moisture, temperature, pH, or recommendations..."
+    class="w-full p-2 border rounded"
+  />
+  <button id="send-btn" class="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+    Send
+  </button>
+</section>
+
+<script>
+  // Append message to chat container
+  function appendMessage(sender, text) {
+    const chatContainer = document.getElementById("chat-container");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = sender === "user" ? "text-right mb-2" : "text-left mb-2";
+    messageDiv.innerHTML = `<span class="inline-block px-3 py-2 rounded ${
+      sender === "user" ? "bg-green-200" : "bg-gray-300"
+    }">${text}</span>`;
+    chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  // Get latest sensor data from your existing sensorData object
+  function getLatestSensorData() {
+    if (
+      !window.sensorData ||
+      sensorData.soilMoisture.length === 0 ||
+      sensorData.temperature.length === 0 ||
+      sensorData.soilPH.length === 0
+    ) {
+      return null;
+    }
+    return {
+      moisture: sensorData.soilMoisture[sensorData.soilMoisture.length - 1],
+      temperature: sensorData.temperature[sensorData.temperature.length - 1],
+      ph: sensorData.soilPH[sensorData.soilPH.length - 1],
+    };
+  }
+
+  // AI agent response logic
+  function aiAgentResponse(message) {
+    const data = getLatestSensorData();
+    if (!data) { return "Sensor data is not yet available. Please wait a moment.";
+     
+    }
+
+    const msg = message.toLowerCase();
+
+    if (msg.includes("soil moisture")) {
+      return `The current soil moisture is approximately ${data.moisture.toFixed(2)}%. ${
+        data.moisture < 30 ? "It is low; irrigation is recommended." : "It is within a healthy range."
+      }`;
+    }
+    if (msg.includes("temperature")) {
+      return `The current temperature is about ${data.temperature.toFixed(2)}°C. ${
+        data.temperature > 32 ? "It's quite high; consider cooling measures." : "Temperature is normal."
+      }`;
+    }
+    if (msg.includes("ph")) {
+      let phMsg = `The soil pH is around ${data.ph.toFixed(2)}. `;
+      if (data.ph < 6) {
+        phMsg += "The soil is acidic; liming may help.";
+      } else if (data.ph > 7.5) {
+        phMsg += "The soil is alkaline; consider soil amendments.";
+      } else {
+        phMsg += "The pH is optimal for most crops.";
+      }
+      return phMsg;
+    }
+    if (msg.includes("recommendation") || msg.includes("advice") || msg.includes("suggest")) {
+      if (typeof analyzeConditions === "function") {
+        const { recommendation } = analyzeConditions(data.moisture, data.temperature, data.ph);
+        return `Based on current conditions: ${recommendation}`;
+      } else {
+        return "Recommendation function is not available.";
+      }
+    }
+
+    return "Sorry, I can help with questions about soil moisture, temperature, pH, or recommendations. Please ask about those.";
+  }
+
+  // Event listener for Send button
+  document.getElementById("send-btn").addEventListener("click", () => {
+    const input = document.getElementById("chat-input");
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    appendMessage("user", userMessage);
+    input.value = "";
+
+    // Simulate AI thinking delay
+    setTimeout(() => {
+      const response = aiAgentResponse(userMessage);
+      appendMessage("agent", response);
+    }, 500);
+  });
+</script>
+
+
+    <!-- Team Members Section -->
+    <section class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto mb-12">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
+        Team Members Overview
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center p-4 border rounded-lg shadow-sm bg-green-50">
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e3333b1d-873d-469e-89fe-40e8ea8abd66.png"
+            alt="Profile image of John Doe, a male professional in agricultural technology, shown in a lab coat standing in a greenhouse with monitoring devices, symbolizing expertise in AI and project management for precision farming"
+            class="mx-auto rounded-full w-24 h-24 mb-4"
+          />
+          <h3 class="text-xl font-semibold text-green-800">John Doe</h3>
+          <p class="text-gray-700">Project Manager & AI Specialist</p>
+        </div>
+        <div class="text-center p-4 border rounded-lg shadow-sm bg-green-50">
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c10270ae-72d6-4cb6-9e4c-428743effad3.png"
+            alt="Profile image of Jane Smith, a female engineer in IoT and data science, depicted with circuit boards and sensor devices in a tech lab, representing skills in data analysis and IoT integration for smart agriculture"
+            class="mx-auto rounded-full w-24 h-24 mb-4"
+          />
+          <h3 class="text-xl font-semibold text-green-800">Jane Smith</h3>
+          <p class="text-gray-700">IoT Engineer & Data Scientist</p>
+        </div>
+        <div class="text-center p-4 border rounded-lg shadow-sm bg-green-50">
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/36b42b7b-9dcb-4e5a-91b8-7b38f38bc6fd.png"
+            alt="Profile image of Carlos Martinez, a male developer and UX designer, shown at a computer designing user interfaces for farming apps, with screens displaying crop data visualizations and navigation menus"
+            class="mx-auto rounded-full w-24 h-24 mb-4"
+          />
+          <h3 class="text-xl font-semibold text-green-800">Carlos Martinez</h3>
+          <p class="text-gray-700">Frontend Developer & UX Designer</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Simulated sensor data (in-memory storage)
+    let sensorData = {soilMoisture: [],temperature: [],soilPH: [],timestamps: [],  };
+
+    // Mock IoT data generator
+    function generateSensorData() {
+      setInterval(() => {
+        const now = new Date();
+        const soilMoisture = Math.random() * (60 - 10) + 10; // 10% to 60%
+        const temperature = Math.random() * (35 - 15) + 15; // 15°C to 35°C
+        const soilPH = Math.random() * (8 - 5) + 5; // 5 to 8 (typical range)
+
+        sensorData.soilMoisture.push(soilMoisture);
+        sensorData.temperature.push(temperature);
+        sensorData.soilPH.push(soilPH);
+        sensorData.timestamps.push(now.toLocaleTimeString());
+
+        // Limit to last 100 data points
+        if (sensorData.soilMoisture.length > 100) {
+          sensorData.soilMoisture.shift();
+          sensorData.temperature.shift();
+          sensorData.soilPH.shift();
+          sensorData.timestamps.shift();
+        }
+      }, 5000);
+    }
+
+    // Simple AI Model: Enhanced analysis considering moisture, temperature, and pH
+    function analyzeConditions(moisture, temp, ph) {
+      let recommendation = "All Good: No Irrigation Needed.";
+      let color = "green";
+
+      if (moisture < 30) {
+        recommendation = "Warning: Irrigation Needed!";
+        color = "red";
+      }
+
+      if (ph < 5.5 || ph > 7.5) {
+        recommendation += " Adjust soil pH for optimal crop health.";
+      }
+
+      if (temp > 32) {
+        recommendation += " High temperature detected; ensure cooling measures.";
+      }
+
+      return { recommendation, color };
+    }
+
+    // Initialize Charts
+    const soilCtx = document.getElementById("soilChart").getContext("2d");
+    const tempCtx = document.getElementById("tempChart").getContext("2d");
+
+    const soilChart = new Chart(soilCtx, {
+      type: "line",
+      data: {
+        labels: sensorData.timestamps,
+        datasets: [
+          {
+            label: "Soil Moisture (%)",
+            data: sensorData.soilMoisture,
+            borderColor: "#3B82F6",
+            backgroundColor: "rgba(59, 130, 246, 0.1)",
+            fill: true,
+            tension: 0.2,
+          },
+          {
+            label: "Soil pH",
+            data: sensorData.soilPH,
+            borderColor: "#10B981",
+            backgroundColor: "rgba(16, 185, 129, 0.1)",
+            fill: false,
+            tension: 0.2,
+            yAxisID: "pHAxis",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, max: 100, position: "left" },
+          pHAxis: {
+            beginAtZero: false,
+            min: 0,
+            max: 14,
+            position: "right",
+            title: { display: true, text: "pH Value" },
+          },
+        },
+        plugins: { legend: { display: true } },
+      },
+    });
+
+    const tempChart = new Chart(tempCtx, {
+      type: "line",
+      data: {
+        labels: sensorData.timestamps,
+        datasets: [
+          {
+            label: "Temperature (°C)",
+            data: sensorData.temperature,
+            borderColor: "#EF4444",
+            backgroundColor: "rgba(239, 68, 68, 0.1)",
+            fill: true,
+            tension: 0.2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true, max: 50 } },
+        plugins: { legend: { display: true } },
+      },
+    });
+
+    // Toggle additional options
+    document
+      .getElementById("toggle-options")
+      .addEventListener("click", function () {
+        document.getElementById("additional-options").classList.toggle("active");
+      });
+
+    // Update pH data manually
+    document.getElementById("update-ph").addEventListener("click", function () {
+      const newPH = parseFloat(document.getElementById("ph-input").value);
+      if (!isNaN(newPH) && newPH >= 0 && newPH <= 14) {
+        const lastIndex = sensorData.soilPH.length - 1;
+        if (lastIndex >= 0) {
+          sensorData.soilPH[lastIndex] = newPH;
+        }
+        soilChart.update();
+        document.getElementById("ph-input").value = "";
+      } else {
+        alert("Please enter a valid pH value between 0 and 14.");
+      }
+    });
+
+    // Run pH impact analysis
+    document.getElementById("analyze-ph").addEventListener("click", function () {
+      const resultDiv = document.getElementById("analysis-result");
+      if (sensorData.soilPH.length > 0) {
+        const latestPH = sensorData.soilPH[sensorData.soilPH.length - 1];
+        let analysis = `Latest Soil pH: ${latestPH.toFixed(2)}. `;
+        if (latestPH < 6) {
+          analysis += "Soil is acidic; consider liming to neutralize.";
+        } else if (latestPH > 7) {
+          analysis += "Soil is alkaline; soil amendments may be needed.";
+        } else {
+          analysis += "pH is in optimal range for most crops.";
+        }
+        resultDiv.innerText = analysis;
+      } else {
+        resultDiv.innerText = "No pH data available for analysis.";
+      }
+    });
+
+    // Update Dashboard
+    function updateDashboard() {
+      // Update charts
+      soilChart.data.labels = sensorData.timestamps;
+      soilChart.data.datasets[0].data = sensorData.soilMoisture;
+      soilChart.data.datasets[1].data = sensorData.soilPH;
+      soilChart.update();
+
+      tempChart.data.labels = sensorData.timestamps;
+      tempChart.data.datasets[0].data = sensorData.temperature;
+      tempChart.update();
+
+      // Update status
+      if (
+        sensorData.soilMoisture.length > 0 &&
+        sensorData.temperature.length > 0 &&
+        sensorData.soilPH.length > 0
+      ) {
+        const latestMoisture =
+          sensorData.soilMoisture[sensorData.soilMoisture.length - 1];
+        const latestTemp =
+          sensorData.temperature[sensorData.temperature.length - 1];
+        const latestPH = sensorData.soilPH[sensorData.soilPH.length - 1];
+        const statusDiv = document.getElementById("status");
+
+        const { recommendation, color } = analyzeConditions(
+          latestMoisture,
+          latestTemp,
+          latestPH
+        );
+        statusDiv.innerHTML = `<strong style="color: ${color};">${recommendation}</strong><br>Moisture: ${latestMoisture.toFixed(
+          2
+        )}%, Temp: ${latestTemp.toFixed(2)}°C, pH: ${latestPH.toFixed(2)}`;
+        statusDiv.style.backgroundColor = color === "red" ? "#FEE2E2" : "#DCFCE7";
+      }
+    }
+
+    // Mock AI Analysis for Image Upload (Simulation)
+    document.getElementById("analyze-btn").addEventListener("click", function () {
+      const fileInput = document.getElementById("crop-image-input");
+      const analysisOutput = document.getElementById("analysis-output");
+      const solutionsList = document.getElementById("solutions-list");
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.maxWidth = "200px";
+        img.style.marginTop = "10px";
+
+        const uploadResult = document.getElementById("upload-result");
+        uploadResult.innerHTML = "";
+        uploadResult.appendChild(img);
+
+        // Simulate AI analysis (mock results)
+        setTimeout(() => {
+          const diseases = [
+            "No disease detected - Crop is healthy",
+            "Powdery mildew detected",
+            "Leaf blight detected",
+            "Nutrient deficiency (Nitrogen)",
+            "Pest damage suspected"
+          ];
+          const randomDisease = diseases[Math.floor(Math.random() * diseases.length)];
+
+          analysisOutput.innerHTML = `<strong>AI Analysis Result:</strong> ${randomDisease}`;
+
+          solutionsList.innerHTML = "";
+          if (randomDisease.includes("Powdery mildew")) {
+            solutionsList.innerHTML = "<li>Apply fungicide spray immediately.</li><li>Ensure proper air circulation around plants.</li><li>Remove affected leaves.</li>";
+          } else if (randomDisease.includes("Leaf blight")) {
+            solutionsList.innerHTML = "<li>Use copper-based fungicide.</li><li>Avoid overhead watering.</li><li>Improve drainage.</li>";
+          } else if (randomDisease.includes("Nutrient deficiency")) {
+            solutionsList.innerHTML = "<li>Add nitrogen-rich fertilizer.</li><li>Test soil for specific nutrient levels.</li><li>Apply compost or organic matter.</li>";
+          } else if (randomDisease.includes("Pest damage")) {
+            solutionsList.innerHTML = "<li>Introduce beneficial insects.</li><li>Use organic insecticides if needed.</li><li>Inspect plants regularly.</li>";
+          } else {
+            solutionsList.innerHTML = "<li>No action needed - Monitor plant health regularly.</li><li>Continue good cultural practices.</li>";
+          }
+        }, 1000); // Simulate delay for "analysis"
+      } else {
+        alert("Please select an image first!");
+      }
+    });
+    
+    // Start data generation and dashboard updates
+    generateSensorData();
+    setInterval(updateDashboard, 5000);
+  </script>
+</body>
+</html>
+</content>
+</create_file>
